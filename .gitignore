@@ -1,0 +1,53 @@
+# Rust/Cargo
+/target
+Cargo.lock.bak
+**/*.rs.bk
+*.pdb
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+
+# Testing
+*.profraw
+*.profdata
+
+# Backup files
+*.bak
+*.tmp
+*~
+
+# Environment/Secrets
+*.key
+.env
+.env.*
+!.env.example
+*.pem
+*.crt
+secrets/
+credentials/
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Documentation builds
+book/
+target/doc/
