@@ -50,6 +50,20 @@ Development and testing is done with the Ollama hosted qwen3:30b model, which in
 cargo build
 ```
 
+### Testing
+
+Run unit tests (no external dependencies):
+```bash
+cargo test
+```
+
+Run integration tests (requires Ollama and qwen3:30b):
+```bash
+# Ensure Ollama is running and model is pulled:
+# ollama pull qwen3:30b
+cargo test --features integration
+```
+
 ## Usage
 
 ### Basic

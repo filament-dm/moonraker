@@ -47,6 +47,7 @@ true
 /// - Write a fibonacci function
 /// - Calculate the 10th term
 /// - Add 1000 to it
+#[cfg(feature = "integration")]
 #[tokio::test]
 async fn test_rlm_fibonacci() {
     // Create the provider with system prompt
@@ -113,6 +114,7 @@ async fn test_rlm_fibonacci() {
 /// - Define a test string with 3 lines
 /// - Split on newlines
 /// - Print each line
+#[cfg(feature = "integration")]
 #[tokio::test]
 async fn test_rlm_string_split() {
     // Create the provider with system prompt

@@ -5,6 +5,7 @@
 
 use moonraker::environment::{Environment, LlmClient};
 
+#[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_basic() {
     // Create environment with qwen3:30b model
@@ -31,6 +32,7 @@ async fn test_llm_query_basic() {
     );
 }
 
+#[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_multiple_calls() {
     // Create environment with qwen3:30b model
@@ -66,6 +68,7 @@ async fn test_llm_query_multiple_calls() {
     );
 }
 
+#[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_with_context() {
     // Create environment with context
