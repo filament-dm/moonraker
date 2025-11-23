@@ -5,6 +5,11 @@
 
 use moonraker::rlm::{RigProvider, Rlm};
 
+#[cfg(feature = "integration")]
+fn get_test_model() -> String {
+    std::env::var("MOONRAKER_TEST_MODEL").unwrap_or_else(|_| "qwen3:30b".to_string())
+}
+
 const SYSTEM_PROMPT: &str = r#"You are a Lua programming assistant. Your task is to write Lua code to solve the user's request.
 
 For each response, provide your output in the following XML format:
@@ -50,18 +55,18 @@ true
 #[cfg(feature = "integration")]
 #[tokio::test]
 async fn test_rlm_fibonacci() {
+    let model = get_test_model();
     // Create the provider with system prompt
-    let provider =
-        RigProvider::new_ollama_with_system("qwen3:30b".to_string(), SYSTEM_PROMPT.to_string());
+    let provider = RigProvider::new_ollama_with_system(model.clone(), SYSTEM_PROMPT.to_string());
 
     // Create the RLM
     let prompt = "Write a Fibonacci function, calculate the 10th Fibonacci number, then add 1000 to it and print the result.".to_string();
-    let llm_client = moonraker::environment::LlmClient::Ollama("qwen3:30b".to_string());
+    let llm_client = moonraker::environment::LlmClient::Ollama(model.clone());
     let mut rlm = Rlm::new(
         provider,
         prompt,
         String::new(), // No context needed
-        "qwen3:30b".to_string(),
+        model,
         llm_client,
     )
     .expect("Failed to create RLM");
@@ -117,18 +122,18 @@ async fn test_rlm_fibonacci() {
 #[cfg(feature = "integration")]
 #[tokio::test]
 async fn test_rlm_string_split() {
+    let model = get_test_model();
     // Create the provider with system prompt
-    let provider =
-        RigProvider::new_ollama_with_system("qwen3:30b".to_string(), SYSTEM_PROMPT.to_string());
+    let provider = RigProvider::new_ollama_with_system(model.clone(), SYSTEM_PROMPT.to_string());
 
     // Create the RLM
     let prompt = "Write a Lua program that defines a test string with 3 lines of text, splits the string on line breaks (newlines), and prints each line separately.".to_string();
-    let llm_client = moonraker::environment::LlmClient::Ollama("qwen3:30b".to_string());
+    let llm_client = moonraker::environment::LlmClient::Ollama(model.clone());
     let mut rlm = Rlm::new(
         provider,
         prompt,
         String::new(), // No context needed
-        "qwen3:30b".to_string(),
+        model,
         llm_client,
     )
     .expect("Failed to create RLM");
