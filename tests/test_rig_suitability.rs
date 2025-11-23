@@ -110,6 +110,7 @@ fn execute_lua_with_output(code: &str) -> LuaResult<Option<String>> {
 }
 
 /// Test using Rig's extractor which internally tries to use structured output (this should FAIL due to an Ollama bug)
+#[cfg(feature = "integration")]
 #[tokio::test]
 #[should_panic(expected = "Extractor with structured output is buggy with Ollama")]
 async fn test_rig_with_structured_output() {
@@ -159,6 +160,7 @@ Use string.gmatch or similar to iterate through lines."#;
 }
 
 /// Test using raw Ollama client with structured output (this should fail due to an Ollama bug)
+#[cfg(feature = "integration")]
 #[tokio::test]
 #[should_panic(expected = "Ollama structured output is buggy")]
 async fn test_ollama_only_with_structured_output() {
@@ -269,6 +271,7 @@ fn extract_lua_code_from_response(response: &str) -> String {
     fallback_lines.join("\n")
 }
 
+#[cfg(feature = "integration")]
 #[tokio::test]
 #[should_panic(expected = "Rig extractors are unreliable")]
 async fn test_rig_extractor_with_ollama() {
@@ -316,6 +319,7 @@ Use string.gmatch or similar to iterate through lines."#;
 
 /// Test without using extractors - just raw agent output
 /// This test should PASS - it extracts Lua code manually and validates it
+#[cfg(feature = "integration")]
 #[tokio::test]
 async fn test_rig_raw_output_no_extractor() {
     use rig::completion::Prompt;
