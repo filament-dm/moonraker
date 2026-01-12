@@ -51,3 +51,9 @@ logs/
 # Documentation builds
 book/
 target/doc/
+
+# Ollama local install
+ollama.tgz
+bin/
+lib/
+local_bin/

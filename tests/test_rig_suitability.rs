@@ -11,6 +11,11 @@ use rig::providers::ollama;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
+#[cfg(feature = "integration")]
+fn get_test_model() -> String {
+    std::env::var("MOONRAKER_TEST_MODEL").unwrap_or_else(|_| "qwen3:30b".to_string())
+}
+
 /// Structure to extract from LLM responses
 #[derive(Debug, Deserialize, Serialize, JsonSchema)]
 struct CellResponse {
@@ -118,7 +123,8 @@ async fn test_rig_with_structured_output() {
     let ollama_client = ollama::Client::new();
 
     // 2. Use qwen3:30b model
-    let model = "qwen3:30b";
+    let model_str = get_test_model();
+    let model = &model_str;
 
     // 3. Create an extractor - Rig's extractors may try to use structured output internally
     let extractor = ollama_client
@@ -172,7 +178,7 @@ async fn test_ollama_only_with_structured_output() {
     let ollama = Ollama::default();
 
     // 2. Use qwen3:30b model
-    let model = "qwen3:30b";
+    let model = get_test_model();
 
     // 3. Create request with structured output
     let prompt = format!(
@@ -279,7 +285,8 @@ async fn test_rig_extractor_with_ollama() {
     let ollama_client = ollama::Client::new();
 
     // 2. Use qwen3:30b model
-    let model = "qwen3:30b";
+    let model_str = get_test_model();
+    let model = &model_str;
 
     // 3. Create an extractor (not using structured output)
     let extractor = ollama_client
@@ -328,7 +335,8 @@ async fn test_rig_raw_output_no_extractor() {
     let ollama_client = ollama::Client::new();
 
     // 2. Use qwen3:30b model
-    let model = "qwen3:30b";
+    let model_str = get_test_model();
+    let model = &model_str;
 
     // 3. Create a simple agent without extractors, using XML prompt for manual parsing
     let agent = ollama_client

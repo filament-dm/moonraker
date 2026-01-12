@@ -6,10 +6,16 @@
 use moonraker::environment::{Environment, LlmClient};
 
 #[cfg(feature = "integration")]
+fn get_test_model() -> String {
+    std::env::var("MOONRAKER_TEST_MODEL").unwrap_or_else(|_| "qwen3:30b".to_string())
+}
+
+#[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_basic() {
+    let model = get_test_model();
     // Create environment with qwen3:30b model
-    let env = Environment::new("", LlmClient::Ollama("qwen3:30b".to_string())).unwrap();
+    let env = Environment::new("", LlmClient::Ollama(model)).unwrap();
 
     // Test a simple query
     let code = r#"
@@ -35,8 +41,9 @@ async fn test_llm_query_basic() {
 #[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_multiple_calls() {
+    let model = get_test_model();
     // Create environment with qwen3:30b model
-    let env = Environment::new("", LlmClient::Ollama("qwen3:30b".to_string())).unwrap();
+    let env = Environment::new("", LlmClient::Ollama(model)).unwrap();
 
     // Test multiple queries in sequence
     let code = r#"
@@ -71,12 +78,9 @@ async fn test_llm_query_multiple_calls() {
 #[cfg(feature = "integration")]
 #[tokio::test(flavor = "multi_thread")]
 async fn test_llm_query_with_context() {
+    let model = get_test_model();
     // Create environment with context
-    let env = Environment::new(
-        "The secret number is 42",
-        LlmClient::Ollama("qwen3:30b".to_string()),
-    )
-    .unwrap();
+    let env = Environment::new("The secret number is 42", LlmClient::Ollama(model)).unwrap();
 
     // Query about the context
     let code = r#"
